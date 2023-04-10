@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -8,7 +8,7 @@ from .serializers import PostSerializer
 
 class BlogListView(APIView):
     def get(self, request, *args, **kwargs):
-        post = Post.postobjects.all()[0:4]
+        posts = Post.PostObjects.all()[0:4]
 
         serializer = PostSerializer(posts,many=True)
 
@@ -16,8 +16,8 @@ class BlogListView(APIView):
 
 class PostDetailView(APIView):
     def get(self, request, post_slug, *args, **kwargs):
-        post = get_object_or_404(Post, slug=post_slug)
+        post  = get_object_or_404(Post, slug=post_slug)
 
-        serializer = PostSerializer(posts)
+        serializer = PostSerializer(post)
 
         return Response(serializer.data) 
